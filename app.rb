@@ -105,7 +105,7 @@ class App
   end
 
   def list_rentals_by_id
-    @rentals.each { |x| puts "Title: #{x.book.title} Author: #{x.book.author} Date: #{x.date} Person: #{x.person.id}" }
+    @rentals.each { |x| puts "Date: #{x.date} Person: #{x.person.name} ID: #{x.person.id}" }
     print 'ID of person: '
     id = gets.chomp.to_i
     person = @rentals.select { |p| p.person.id == id }
