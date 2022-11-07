@@ -13,6 +13,7 @@ def run(app)
         '7 - Exit']
   input = gets.chomp.to_i
   return puts 'Thank you for using the school library!' unless input != 7
+
   select = Selection.new
   select.choices(app, input)
   run(app)
