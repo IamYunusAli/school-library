@@ -2,6 +2,7 @@ require_relative './logic'
 
 class App
   attr_accessor :logics
+
   def initialize
     @logics = Logic.new
   end
