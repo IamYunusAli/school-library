@@ -38,6 +38,12 @@ To get a local copy up and running follow these simple example steps.
 - Twitter: [@IamYunusAli](https://twitter.com/iamyunusali)
 - LinkedIn: [Yunus Ali](https://linkedin.com/in/iamyunusali)
 
+👤 **Alusine Jalloh**
+
+- GitHub: [@Alusp](https://github.com/Alusp)
+- LinkedIn: [@alusine-jalloh](https://www.linkedin.com/in/alusine-jalloh)
+- Twitter: [@aseni_jalloh](https://twitter.com/aseni_jalloh)
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
