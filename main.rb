@@ -1,4 +1,5 @@
 require_relative './app'
+require_relative './selection'
 
 def run(app)
   puts ['',
@@ -12,7 +13,8 @@ def run(app)
         '7 - Exit']
   input = gets.chomp.to_i
   return puts 'Thank you for using the school library!' unless input != 7
-  choices(app, input)
+  select = Selection.new
+  select.choices(app, input)
   run(app)
 end
 
