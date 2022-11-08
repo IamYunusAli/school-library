@@ -3,6 +3,7 @@ require_relative './classes/teacher'
 require_relative './classes/book'
 require_relative './classes/rental'
 require_relative './classes/person'
+require 'json'
 require 'date'
 
 class Logic
@@ -12,6 +13,8 @@ class Logic
     @people = []
     @books = []
     @rentals = []
+    fetchbooks(books)
+    fetchpeople(people)
   end
 
   def list_book
@@ -26,7 +29,7 @@ class Logic
 
   def list_people
     if @people.length.positive?
-      @people.each_with_index do |person, index|
+      people.each_with_index do |person, index|
         puts "[#{person.class}] #{index} ID: #{person.id} Name: #{person.name} Age: #{person.age} "
       end
     else
@@ -34,49 +37,53 @@ class Logic
     end
   end
 
-  def parent_permission?
-    print 'Has parent permission? [Y/N]: '
-    parent_permission = gets.chomp.capitalize
-    case parent_permission
-    when 'Y'
-      parent_permission = true
-    when 'N'
-      parent_permission = false
-    else
-      puts 'Please enter a valid input'
-      parent_permission?
-    end
-
-    parent_permission
-  end
-
-  def choice
-    a = gets.chomp.to_i
-    if [1, 2].include?(a)
-      a
-    else
-      puts 'Please enter a valid value (1 or 2)'
-      choice
-    end
-  end
-
-  def create_a_person
-    a = choice
+  def student
     print 'Age: '
     age = gets.chomp
     print 'Name: '
     name = gets.chomp
+    parent_permission = parent_permission?
+    @people << Student.new(name, parent_permission, age)
+    if File.size?('./data/person.json')
+      data = File.read('./data/person.json')
+      jsonstudent = JSON.parse(data)
+      jsonstudent << { type: 'Student', Name: name, parent_permission: parent_permission, Age: age }
+      File.write('./data/person.json', JSON.pretty_generate(jsonstudent))
+    else
+      File.write('./data/person.json',
+                 JSON.pretty_generate([{ type: 'Student', Name: name, parent_permission: parent_permission,
+                                         Age: age }]))
+    end
+    puts 'Student created successfully'
+  end
 
+  def teacher
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+    print 'Specialization: '
+    specialization = gets.chomp
+    @people << Teacher.new(name, specialization, age)
+    if File.size?('./data/person.json')
+      data = File.read('./data/person.json')
+      jsonteacher = JSON.parse(data)
+      jsonteacher << { type: 'Teacher', Name: name, specialization: specialization, Age: age }
+      File.write('./data/person.json', JSON.pretty_generate(jsonteacher))
+    else
+      File.write('./data/person.json',
+                 JSON.pretty_generate([{ type: 'Teacher', Name: name, specialization: specialization, Age: age }]))
+    end
+    puts 'Teacher created successfully'
+  end
+
+  def create_a_person
+    a = choice
     case a
     when 1
-      parent_permission = parent_permission?
-      @people << Student.new(name, parent_permission, age)
-      puts 'Student created successfully'
+      student
     when 2
-      print 'Specialization: '
-      specialization = gets.chomp
-      @people << Teacher.new(name, specialization, age)
-      puts 'Teacher created successfully'
+      teacher
     end
   end
 
@@ -86,7 +93,15 @@ class Logic
     print 'Author: '
     author = gets.chomp
     @books << Book.new(title, author)
-    puts 'Book created successfully'
+    if File.size?('./data/book.json')
+      data = File.read('./data/book.json')
+      jsonbooks = JSON.parse(data)
+      jsonbooks << { title: title, author: author }
+      File.write('./data/book.json', JSON.pretty_generate(jsonbooks))
+    else
+      File.write('./data/book.json', JSON.pretty_generate([{ title: title, author: author }]))
+      puts 'Book created successfully'
+    end
   end
 
   def create_a_rental
@@ -111,5 +126,51 @@ class Logic
     person = @rentals.select { |p| p.person.id == id }
     puts 'Rentals:'
     person.each { |x| puts "Date: #{x.date} Book: #{x.book.title} by #{x.book.author}" }
+  end
+end
+
+def fetchbooks(books)
+  return unless File.size?('./data/book.json')
+
+  data = File.read('./data/book.json')
+  jsonbooks = JSON.parse(data)
+  jsonbooks.map do |b|
+    books << (Book.new(b['title'], b['author']))
+  end
+end
+
+def fetchpeople(people)
+  return unless File.size?('./data/person.json')
+
+  data = File.read('./data/person.json')
+  jsonpeople = JSON.parse(data)
+  jsonpeople.map do |p|
+    people << (Student.new(p['Name'], p['Parrent Permission'], p['Age'])) if p['type'] == 'Student'
+    people << (Teacher.new(p['Name'], p['specialization'], p['Age'])) if p['type'] == 'Teacher'
+  end
+end
+
+def parent_permission?
+  print 'Has parent permission? [Y/N]: '
+  parent_permission = gets.chomp.capitalize
+  case parent_permission
+  when 'Y'
+    parent_permission = true
+  when 'N'
+    parent_permission = false
+  else
+    puts 'Please enter a valid input'
+    parent_permission?
+  end
+  parent_permission
+end
+
+def choice
+  a = gets.chomp.to_i
+  if [1, 2].include?(a)
+    a
+  else
+    puts 'Please enter a valid value (1 or 2)'
+    choice
   end
 end
