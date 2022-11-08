@@ -1,4 +1,3 @@
-![](https://img.shields.io/badge/morse_code-blue)
 
 # School library
 
@@ -25,10 +24,19 @@ To get a local copy up and running follow these simple example steps.
 
 ### Setup
 
+To Run the project
+```
 - Clone the repository to your local machine using `git clone https://github.com/IamYunusAli/school-library.git`
 - `cd` into the project directory
 - Run `bundle install` to install the required gems
 - Run `bin/main.rb` to start the program
+```
+
+To Run test
+ ```
+- Run gem install rspec
+- Run rspec spec
+ ```
 
 ## Authors
 
