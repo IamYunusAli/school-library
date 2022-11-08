@@ -1,0 +1,32 @@
+[
+  {
+    "type": "Student",
+    "Name": "Yunus",
+    "parent_permission": true,
+    "Age": "23"
+  },
+  {
+    "type": "Teacher",
+    "Name": "Ali",
+    "specialization": "Maths",
+    "Age": "45"
+  },
+  {
+    "type": "Student",
+    "Name": "Alusine",
+    "parent_permission": false,
+    "Age": "23"
+  },
+  {
+    "type": "Student",
+    "Name": "james",
+    "parent_permission": true,
+    "Age": "26"
+  },
+  {
+    "type": "Student",
+    "Name": "Brown",
+    "parent_permission": false,
+    "Age": "26"
+  }
+]
